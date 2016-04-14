@@ -36,10 +36,6 @@ public class ProcessSearchResult {
 			}
 			in.close();
 			content = response.toString();
-			//print result
-			//System.out.println(content);
-			//JSONObject jsonobj = new JSONObject(content);
-			//content = jsonobj.toString();
 		}
 		catch(Exception e){
 			System.out.println("Exception");
