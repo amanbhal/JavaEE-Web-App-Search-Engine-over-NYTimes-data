@@ -35,7 +35,7 @@ public class MyServlet extends HttpServlet {
 		ProcessSearchResult process = new ProcessSearchResult(search);
 		String content = process.getContent();
 		request.setAttribute("content", content);
-		request.getRequestDispatcher("searchresult.jsp").forward(request, response);
+		request.getRequestDispatcher("time.jsp").forward(request, response);
 		
 	}
 

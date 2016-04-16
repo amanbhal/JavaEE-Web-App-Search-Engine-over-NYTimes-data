@@ -16,7 +16,7 @@ public class ProcessSearchResult {
 		String content = "";
 		try{
 			this.search = this.search.replaceAll(" ","%20");
-			String url = "http://localhost:8983/solr/gettingstarted_shard1_replica2/select?q="+this.search+"&wt=json&indent=true";
+			String url = "http://192.168.0.110:8983/solr/gettingstarted_shard1_replica1/select?q="+this.search+"&rows=10000000&wt=json&indent=true";
 			URL obj = new URL(url);
 			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 			con.setRequestMethod("GET");

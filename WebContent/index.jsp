@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 <title>SearchEngine</title>
 </head>
-<body style="background-color:#BBDFD5;">
+<body>
 <nav class="navbar navbar-default" style="background-color:#7E619F;">
   <div class="container-fluid">
     <div class="navbar-header">

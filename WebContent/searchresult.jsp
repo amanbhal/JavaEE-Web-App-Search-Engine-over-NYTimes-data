@@ -36,12 +36,13 @@
 	<%@ page import="java.util.*"%>
 	<%
 		String result = (String) request.getAttribute("content");
+		System.out.println(result);
 		JSONObject jo = new JSONObject(result);
 		JSONArray arr = jo.getJSONObject("response").getJSONArray("docs");
 		ArrayList<String> links = new ArrayList<String>();
 		for (int i = 0; i < arr.length(); i++) {
 			JSONObject data = arr.getJSONObject(i);
-			links.add(data.get("resourcename").toString());
+			links.add(data.get("headline").toString());
 		}
 	%>
 	<br>
