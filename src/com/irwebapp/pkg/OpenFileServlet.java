@@ -30,38 +30,9 @@ public class OpenFileServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.setContentType("text/html");
-	    
-		String file = request.getParameter("filename");
-		StringBuilder res = new StringBuilder();
-		
-		BufferedReader br = null;
-
-		try {
-
-			String sCurrentLine;
-
-			br = new BufferedReader(new FileReader(file));
-
-			while ((sCurrentLine = br.readLine()) != null) {
-				System.out.println(sCurrentLine);
-				res.append(sCurrentLine).append("\n");
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (br != null)br.close();
-			} catch (IOException ex) {
-				ex.printStackTrace();
-			}
-		}
-		
-		//PrintWriter out = response.getWriter();
-		//out.print(res.toString());
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		request.setAttribute("content", res.toString());
-		request.getRequestDispatcher("showDoc.jsp").forward(request, response);
+		String year = request.getParameter("year");
+		request.setAttribute("year", year);
+		request.getRequestDispatcher("openTimeline.jsp").forward(request, response);
 		
 	}
 

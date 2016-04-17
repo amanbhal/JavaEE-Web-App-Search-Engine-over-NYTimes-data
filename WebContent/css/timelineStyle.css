@@ -94,6 +94,15 @@
   border-bottom-left-radius: 50%;
 }
 
+#dateLink {
+	color: white;
+	text-decoration: none;
+}
+
+.timeline > li > .timeline-badge:hover {
+	box-shadow: 0 0 50px black;
+}
+
 .timeline > li.timeline-inverted > .timeline-panel {
   float: right;
 }
