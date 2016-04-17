@@ -7,7 +7,6 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<title>Search Results</title>
-	<script type="text/javascript" src="javascript/timeline.js" ></script>
 </head>
 <body>
 <nav class="navbar navbar-default" style="background-color:#7E619F;">
@@ -68,7 +67,7 @@
   	%>
   	<%if(i%2==0) { 	%>
     <li>
-      <div class="timeline-badge info"><a id="dateLink" href=<%=url %>><%= year %></a></div>
+      <a id="dateLink" href=<%=url %>><div class="timeline-badge info"><%= year %></div></a>
       <div class="timeline-panel">
         <div class="timeline-heading">
           <h4 class="timeline-title"><%= year_docidMap.get(year).size() %> News Articles</h4>
@@ -83,7 +82,7 @@
     <%} 
     else{ %>
     <li class="timeline-inverted">
-      <div class="timeline-badge warning"><a id="dateLink" href=<%=url %>><%= year %></a></div>
+      <a id="dateLink" href=<%=url %>><div class="timeline-badge warning"><%= year %></div></a>
       <div class="timeline-panel">
         <div class="timeline-heading">
           <h4 class="timeline-title"><%= year_docidMap.get(year).size() %> News Articles</h4>
