@@ -1,21 +1,28 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
+import com.mysql.jdbc.PreparedStatement;
 
 public class database {
 
 
-	public static void updateInBulk(ArrayList<String> doc_ids, String rating) throws Exception{
+	public static void insertInBulk(ArrayList<String> doc_ids) throws Exception{
 		try{
 			Connection conn = getConnection();
 			for(String doc_id : doc_ids){
 				try{
 				System.out.println("Inserting Document: " + doc_id);
-				PreparedStatement sqlStatement = (PreparedStatement) conn.prepareStatement("INSERT INTO relevance (doc_id, rating) VALUES ('"+ doc_id +"','"+ rating+"')");
+				PreparedStatement sqlStatement = (PreparedStatement) conn.prepareStatement("INSERT INTO relevance (doc_id) VALUES ('"+ doc_id +"')");
 				sqlStatement.executeUpdate(); //Update is to manipulate data in database
 				}catch (Exception ex){
 					
@@ -28,11 +35,12 @@ public class database {
 			System.out.println("Insertion successfully.");
 		}
 	}
-	//To update rating for corresponding doc_id
-	public static void update(String doc_id, String rating) throws Exception{
+	//To update row for corresponding doc_id
+	public static void update(String doc_id, String columnNameToBeModified) throws Exception{
 		try{
 			Connection conn = getConnection();
-			PreparedStatement sqlStatement =(PreparedStatement) conn.prepareStatement("UPDATE relevance SET rating = '" + rating + "'where doc_id = '" + doc_id + "'");
+			String query = "UPDATE relevance SET " +columnNameToBeModified +" = " + columnNameToBeModified + " + 1 where doc_id = '" + doc_id + "'";
+			PreparedStatement sqlStatement =(PreparedStatement) conn.prepareStatement(query);
 			sqlStatement.executeUpdate();
 		}catch (Exception e){
 			System.out.println(e.getMessage());
@@ -42,8 +50,30 @@ public class database {
 		}
 	}
 	
+	public static HashMap<String, Integer> get(String doc_id) throws Exception{
+		HashMap<String, Integer> result = new HashMap<String, Integer>();
+		try{
+			Connection conn = getConnection();
+			PreparedStatement sqlStatement = (PreparedStatement) conn.prepareStatement("SELECT * FROM relevance where doc_id = '" + doc_id +"'");
+			ResultSet res = sqlStatement.executeQuery();
+			System.out.println("_____Retrieving data______");
+			if(res.next()){
+				result.put("five_star",Integer.parseInt(res.getString(2)));
+				result.put("four_star",Integer.parseInt(res.getString(3)));
+				result.put("three_star",Integer.parseInt(res.getString(4)));
+				result.put("two_star",Integer.parseInt(res.getString(5)));
+				result.put("one_star",Integer.parseInt(res.getString(6)));
+				result.put("hits",Integer.parseInt(res.getString(7)));
+			}
+			System.out.println("Successfully retrieved data !!");
+		}catch(Exception ex){
+			System.out.println(ex.getMessage());
+		}
+		
+		return result;
+	}
 	
-	public static ArrayList<String> get() throws Exception{
+	public static ArrayList<String> getAll() throws Exception{
 		ArrayList<String> result = new ArrayList<String>();
 		try{
 			Connection conn = getConnection();
@@ -91,4 +121,67 @@ public class database {
 		}
 		return conn;
 	}
+	
+	static void firstTimeInsertion() {
+		int i = 0;
+		ArrayList<String> doc_ids = new ArrayList<String>();
+		File folder = new File("/home/tyagi/git/SearchEngine_local/json_data");
+		for (final File fileEntry : folder.listFiles()) {
+				try{
+		            String filepath = fileEntry.getPath();
+		            String fileContent = getFileContent(filepath);
+		            String doc_id = getIDFromJSON(fileContent);
+		            doc_ids.add(doc_id);	  
+				}
+				catch(Exception ex){}
+	            
+	    }
+		int len = doc_ids.size();
+		try {
+			database.insertInBulk(doc_ids);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	static String getIDFromJSON(String fileContent){
+		String result = "";
+		JSONParser parser = new JSONParser();
+		try{
+			JSONObject objJSON = (JSONObject) parser.parse(fileContent);
+			result = (String) objJSON.get("id");
+			
+		}
+		catch(Exception ex){
+			System.out.println(ex.getMessage());
+		}
+		return result;
+	}
+	static String getFileContent(String filepath){
+		String result = "";
+		BufferedReader br = null;
+		try {
+			br = new BufferedReader(new FileReader(filepath));
+			String line = br.readLine();
+			result += line;
+			line = br.readLine();
+
+		} catch (Exception e) {
+			System.out.println("Error while reading the file. Error: " + e.getMessage());
+			e.printStackTrace();
+		} finally {
+			if (br != null) {
+				try {
+					br.close();
+				} catch (IOException e) {
+					System.out.println("Error while reading the file. Error: " + e.getMessage());
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		result = result.trim();
+		return result;
+	} 
 }

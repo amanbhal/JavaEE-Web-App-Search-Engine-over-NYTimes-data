@@ -1,3 +1,5 @@
+<%@page import="com.irwebapp.pkg.ProcessSearchResult"%>
+<%@page import="com.irwebapp.pkg.MyServlet"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -33,26 +35,12 @@
 	<%@ page import="org.json.*"%>
 	<%@ page import="java.util.*"%>
 	<%
-		String result = (String) request.getAttribute("content");
-		JSONObject jo = new JSONObject(result);
-		String time = jo.getJSONObject("responseHeader").get("QTime").toString();
-		JSONArray arr = jo.getJSONObject("response").getJSONArray("docs");
-		Map<String, List<String>> year_docidMap = new TreeMap<String, List<String>>(Collections.reverseOrder());
-		for (int i = 0; i < arr.length(); i++) {
-			String year = arr.getJSONObject(i).getJSONArray("date").getString(0).substring(0, 4);
-			String docid = arr.getJSONObject(i).getJSONArray("lead_paragraph").getString(0);
-			// System.out.println("Year :" + year + " Doc ID :" + docid);
-			List<String> list = null;
-			if (year_docidMap.containsKey(year)) {
-				list = year_docidMap.get(year);
-			} else {
-				list = new ArrayList<String>();
-			}
-			list.add(docid);
-			year_docidMap.put(year, list);
-		}
-		
-		String numOfResponse = jo.getJSONObject("response").get("numFound").toString();
+
+		String content = (String) request.getAttribute("content");
+		HashMap<String, Object> parsedContent = ProcessSearchResult.getContenForTimeTimeLine(content);
+		String numOfResponse = (String)parsedContent.get("numOfResponse");
+		String time = (String)parsedContent.get("time");
+		Map<String, List<String>> year_docidMap = (TreeMap<String, List<String>>)parsedContent.get("year_docidMap");
 	%>
 	<%	session.setAttribute("data", year_docidMap);
 	%>
