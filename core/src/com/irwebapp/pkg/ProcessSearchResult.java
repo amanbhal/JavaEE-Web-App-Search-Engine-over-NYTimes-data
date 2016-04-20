@@ -39,6 +39,7 @@ public class ProcessSearchResult {
 			in.close();
 			content = response.toString();
 		} catch (Exception e) {
+			System.out.println("Error while getting content for the query");
 			e.printStackTrace();
 		}
 
