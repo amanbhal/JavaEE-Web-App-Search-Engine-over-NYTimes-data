@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import org.json.*;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+
+//import com.database.database;
 public class RatingSystemForIR {
 
 	public static void main(String[] args) throws Exception {
@@ -16,7 +18,7 @@ public class RatingSystemForIR {
 		//Update column value		
 		String columnNameToBeIncremented = "five_star";	//other options four_star, three_star, two_star, one_star, hits
 		
-		database.update(doc_id, columnNameToBeIncremented);		
+		//database.update(doc_id, columnNameToBeIncremented);		
 		
 		
 //		database.get(doc_id);
