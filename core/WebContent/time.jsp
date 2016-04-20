@@ -40,7 +40,7 @@
 		Map<String, List<String>> year_docidMap = new TreeMap<String, List<String>>(Collections.reverseOrder());
 		for (int i = 0; i < arr.length(); i++) {
 			String year = arr.getJSONObject(i).getJSONArray("date").getString(0).substring(0, 4);
-			String docid = arr.getJSONObject(i).getString("lead_paragraph");
+			String docid = arr.getJSONObject(i).getJSONArray("lead_paragraph").getString(0);
 			// System.out.println("Year :" + year + " Doc ID :" + docid);
 			List<String> list = null;
 			if (year_docidMap.containsKey(year)) {

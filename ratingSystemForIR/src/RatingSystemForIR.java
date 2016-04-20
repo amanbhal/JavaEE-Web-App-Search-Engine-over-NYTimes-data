@@ -5,8 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import org.json.*;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+
 public class RatingSystemForIR {
 
 	public static void main(String[] args) {
@@ -15,15 +14,15 @@ public class RatingSystemForIR {
 		ArrayList<String> doc_ids = new ArrayList<String>();
 		File folder = new File("/home/tyagi/git/SearchEngine_local/json_data");
 		for (final File fileEntry : folder.listFiles()) {
-				try{
-		            String filepath = fileEntry.getPath();
-		            String fileContent = getFileContent(filepath);
-		            String doc_id = getIDFromJSON(fileContent);
-		            doc_ids.add(doc_id);	  
-				}
-				catch(Exception ex){}
-	            
-	    }
+			try {
+				String filepath = fileEntry.getPath();
+				String fileContent = getFileContent(filepath);
+				String doc_id = getIDFromJSON(fileContent);
+				doc_ids.add(doc_id);
+			} catch (Exception ex) {
+			}
+
+		}
 		int len = doc_ids.size();
 		try {
 			database.updateInBulk(doc_ids, "0");
@@ -31,28 +30,30 @@ public class RatingSystemForIR {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//		String filepath = "/home/tyagi/workspace/ratingSystemForIR/src/test_data/A Host of Tiles for All Inclinations.json";
-//		String fileContent = getFileContent(filepath);
-////		System.out.println(fileContent);
-//		String doc_id = getIDFromJSON(fileContent);
-//		System.out.println(doc_id);
-		
+		// String filepath =
+		// "/home/tyagi/workspace/ratingSystemForIR/src/test_data/A Host of
+		// Tiles for All Inclinations.json";
+		// String fileContent = getFileContent(filepath);
+		//// System.out.println(fileContent);
+		// String doc_id = getIDFromJSON(fileContent);
+		// System.out.println(doc_id);
+
 	}
-	
-	static String getIDFromJSON(String fileContent){
+
+	static String getIDFromJSON(String fileContent) {
 		String result = "";
-		JSONParser parser = new JSONParser();
-		try{
-			JSONObject objJSON = (JSONObject) parser.parse(fileContent);
+
+		try {
+			JSONObject objJSON = new JSONObject(fileContent);
 			result = (String) objJSON.get("id");
-			
-		}
-		catch(Exception ex){
+
+		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
 		}
 		return result;
 	}
-	static String getFileContent(String filepath){
+
+	static String getFileContent(String filepath) {
 		String result = "";
 		BufferedReader br = null;
 		try {
@@ -74,9 +75,9 @@ public class RatingSystemForIR {
 				}
 			}
 		}
-		
+
 		result = result.trim();
 		return result;
-	} 
+	}
 
 }
