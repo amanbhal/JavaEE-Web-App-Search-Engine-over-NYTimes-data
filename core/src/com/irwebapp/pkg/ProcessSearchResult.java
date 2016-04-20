@@ -5,6 +5,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import org.json.*;
+import java.util.*;
+
 public class ProcessSearchResult {
 	String search;
 	private final String USER_AGENT = "Mozilla/5.0 (Windows NT 5.1; rv:19.0) Gecko/20100101 Firefox/19.0";
@@ -44,6 +47,35 @@ public class ProcessSearchResult {
 
 		return content;
 
+	}
+	
+	public  static HashMap<String, Object> getContenForTimeTimeLine(String content){
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		try{
+			JSONObject jo = new JSONObject(content);
+			result.put("time", jo.getJSONObject("responseHeader").get("QTime").toString());
+			JSONArray arr = jo.getJSONObject("response").getJSONArray("docs");
+			Map<String, List<String>> year_docidMap = new TreeMap<String, List<String>>(Collections.reverseOrder());
+			for (int i = 0; i < arr.length(); i++) {
+				String year = arr.getJSONObject(i).getJSONArray("date").getString(0).substring(0, 4);
+				String docid = arr.getJSONObject(i).getJSONArray("lead_paragraph").getString(0);
+				// System.out.println("Year :" + year + " Doc ID :" + docid);
+				List<String> list = null;
+				if (year_docidMap.containsKey(year)) {
+					list = year_docidMap.get(year);
+				} else {
+					list = new ArrayList<String>();
+				}
+				list.add(docid);
+				year_docidMap.put(year, list);
+			}
+			
+			result.put("year_docidMap", year_docidMap);
+			result.put("numOfResponse", jo.getJSONObject("response").get("numFound").toString());
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return result;
 	}
 
 }
