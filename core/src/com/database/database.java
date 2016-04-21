@@ -4,16 +4,14 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.Connection;
+import java.sql.*;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.json.*;
-import org.json.*;
 
-import com.mysql.jdbc.PreparedStatement;
 
 public class database {
 
@@ -23,25 +21,24 @@ public class database {
 			for (String doc_id : doc_ids) {
 				try {
 					System.out.println("Inserting Document: " + doc_id);
-					PreparedStatement sqlStatement = (PreparedStatement) conn
+					PreparedStatement sqlStatement =  conn
 							.prepareStatement("INSERT INTO relevance (doc_id) VALUES ('" + doc_id + "')");
 					sqlStatement.executeUpdate(); // Update is to manipulate
 													// data in database
 				} catch (Exception ex) {
-
+					ex.printStackTrace();
 				}
+
+				System.out.println("Insertion successfully.");
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-		} finally {
-			System.out.println("Insertion successfully.");
-		}
+		} 
 	}
 
 	// To update row for corresponding doc_id
-	public static void update(String doc_id, String columnNameToBeModified) throws Exception {
+	public static void updateDocumentRatings(Connection conn, String doc_id, String columnNameToBeModified) throws Exception {
 		try {
-			Connection conn = getConnection();
 			String query = "UPDATE relevance SET " + columnNameToBeModified + " = " + columnNameToBeModified
 					+ " + 1 where doc_id = '" + doc_id + "'";
 			PreparedStatement sqlStatement = (PreparedStatement) conn.prepareStatement(query);
@@ -52,11 +49,35 @@ public class database {
 			System.out.println("Updated successfully.");
 		}
 	}
+	
+	public static void updateGlobalRatings(Connection conn, int ratingValue) throws Exception {
+		try {
+			int noOfDocs = getNumberOfDocuments(conn);
+			double incrementInRating = (double)ratingValue / (double)noOfDocs;
+			String query = "UPDATE global_rating SET average_rating = average_rating + '" + incrementInRating +
+						"', total_hits =  total_hits + 1 where id = 1";
+			PreparedStatement sqlStatement = (PreparedStatement) conn.prepareStatement(query);
+			sqlStatement.executeUpdate();
+			System.out.println("Updated successfully.");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} 
+	}
+	
+	public static int getNumberOfDocuments(Connection conn) throws Exception{
+	int numberOfDocuments = 0;
+	PreparedStatement sqlStatement = conn.prepareStatement("SELECT count(*) FROM relevance ");
+	ResultSet res = sqlStatement.executeQuery();
+	if(res.next()){
+		numberOfDocuments = res.getInt(1);
+	}
+	return numberOfDocuments;
+}
 
-	public static HashMap<String, Integer> get(String doc_id) throws Exception {
+
+	public static HashMap<String, Integer> getDocumentRatings(Connection conn, String doc_id) throws Exception {
 		HashMap<String, Integer> result = new HashMap<String, Integer>();
 		try {
-			Connection conn = getConnection();
 			PreparedStatement sqlStatement = (PreparedStatement) conn
 					.prepareStatement("SELECT * FROM relevance where doc_id = '" + doc_id + "'");
 			ResultSet res = sqlStatement.executeQuery();
@@ -75,6 +96,28 @@ public class database {
 		}
 
 		return result;
+	}
+	
+	public static double getAverageRating(Connection conn) throws Exception{
+		double averageRating = 0.0;
+		PreparedStatement sqlStatement = (PreparedStatement)conn.prepareStatement("SELECT average_rating FROM global_rating where id = 1");
+		ResultSet res = sqlStatement.executeQuery();
+		System.out.println("Data retrieved");
+		if (res.next()) {
+			  averageRating = Double.parseDouble(res.getString(1));
+		}
+		return averageRating;
+	}
+	
+	public static double getTotalHits(Connection conn) throws Exception{
+		double averageHits = 0.0;
+		PreparedStatement sqlStatement = (PreparedStatement)conn.prepareStatement("SELECT total_hits FROM global_rating where id = 1");
+		ResultSet res = sqlStatement.executeQuery();
+		System.out.println("Data retrieved");
+		if (res.next()) {
+			  averageHits = Double.parseDouble(res.getString(1));
+		}
+		return averageHits;
 	}
 
 	public static ArrayList<String> getAll() throws Exception {
@@ -152,7 +195,7 @@ public class database {
 
 	static String getIDFromJSON(String fileContent) {
 		String result = "";
-
+		
 		try {
 			JSONObject objJSON = new JSONObject(fileContent);
 			result = (String) objJSON.get("id");
@@ -190,3 +233,4 @@ public class database {
 		return result;
 	}
 }
+

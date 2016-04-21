@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -15,6 +16,7 @@ import java.util.TreeMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.database.database;
 import com.resource.Document;
 
 public class ProcessSearchResult {
@@ -110,8 +112,51 @@ public class ProcessSearchResult {
 		return result;
 	}
 
-	public static double getRatingForDoc(String docID) {
-		return 1.0;
+	public static double getRatingForDoc(String doc_id) {
+		double totalRatingCurrentDocument = 0.0;
+		try {
+			Connection conn = database.getConnection();
+			HashMap<String, Integer> ratingsForDocument = database.getDocumentRatings(conn, doc_id);
+			double noOfVotes = (double)getNumberOfVotes(ratingsForDocument);
+			double minimumVotesRequired = 10.0;
+			double meanRating = getMeanRating(ratingsForDocument, noOfVotes);
+			double meanRatingOfSystem = database.getAverageRating(conn);
+			
+			double weightedRating  = (noOfVotes/ noOfVotes + minimumVotesRequired) * meanRating;		//Formula from IMDb
+			weightedRating += (meanRating/ noOfVotes + minimumVotesRequired) * meanRatingOfSystem;
+			int hitsForCurrentDocument = ratingsForDocument.get("hits");
+			double totalHits = database.getTotalHits(conn);
+			double weightForBaysianAverage =  (double)hitsForCurrentDocument/totalHits;					//Using Bayesian average
+			double ratingsBasedOnHits = weightForBaysianAverage * meanRating + (1 - weightForBaysianAverage) * meanRatingOfSystem;
+			
+			totalRatingCurrentDocument = weightedRating + ratingsBasedOnHits;
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return totalRatingCurrentDocument;
+	}
+	
+	public static int getNumberOfVotes(HashMap<String, Integer> ratingsForDocument){
+		int result = 0;
+		result += ratingsForDocument.get("five_star");
+		result += ratingsForDocument.get("four_star");
+		result += ratingsForDocument.get("three_star");
+		result += ratingsForDocument.get("two_star");
+		result += ratingsForDocument.get("one_star");
+		return result;
+	}
+	
+	
+	public static double getMeanRating(HashMap<String, Integer> ratingsForDocument, double noOfVotes){
+		int totalRating = 0;
+		totalRating += ratingsForDocument.get("five_star") * 5;
+		totalRating += ratingsForDocument.get("four_star") * 4;
+		totalRating += ratingsForDocument.get("three_star") * 3;
+		totalRating += ratingsForDocument.get("two_star") * 2;
+		totalRating += ratingsForDocument.get("one_star") * 1;
+		return (double)totalRating/(double)noOfVotes;
 	}
 
 	static class MyComparator implements Comparator<Document> {
