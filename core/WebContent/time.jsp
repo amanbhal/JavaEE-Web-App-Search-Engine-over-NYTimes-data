@@ -1,3 +1,4 @@
+<%@page import="com.resource.Document"%>
 <%@page import="com.irwebapp.pkg.ProcessSearchResult"%>
 <%@page import="com.irwebapp.pkg.MyServlet"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -42,7 +43,7 @@
 			HashMap<String, Object> parsedContent = ProcessSearchResult.getContenForTimeTimeLine(content);
 			String numOfResponse = (String)parsedContent.get("numOfResponse");
 			String time = (String)parsedContent.get("respones_time_in_millisecond");
-			Map<String, List<String>> year_docidMap = (TreeMap<String, List<String>>)parsedContent.get("year_docMap");
+			Map<String, List<Document>> year_docidMap = (TreeMap<String, List<Document>>)parsedContent.get("year_docMap");
 	%>
 	<%
 		session.setAttribute("data", year_docidMap);
@@ -58,8 +59,8 @@
 		<ul class="timeline">
 			<%
 				int i=0;
-					  		for (String year : year_docidMap.keySet()) {
-					  			String url = "OpenFileServlet?year="+year;
+													  		for (String year : year_docidMap.keySet()) {
+													  			String url = "OpenFileServlet?year="+year;
 			%>
 			<%
 				if(i%2==0) {
@@ -74,13 +75,18 @@
 						<!--<p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> 11 hours ago via Twitter</small></p>-->
 					</div>
 					<div class="timeline-body">
-						<p>Top Article:
-						<p><%=year_docidMap.get(year).get(0)%>
+						<p>
+							Top Article:
+							<%
+							String topArticle =year_docidMap.get(year).get(0).getDocAsJSON().getJSONArray("lead_paragraph").getString(0);
+						%>
+						
+						<p><%=topArticle%>
 					</div>
 				</div></li>
 			<%
 				} 
-					    else{
+													    else{
 			%>
 			<li class="timeline-inverted"><a id="dateLink" href=<%=url%>><div
 						class="timeline-badge warning"><%=year%></div></a>
@@ -93,7 +99,7 @@
 					</div>
 					<div class="timeline-body">
 						<p>Top Article:
-						<p><%=year_docidMap.get(year).get(0)%>
+						<p><%=year_docidMap.get(year).get(0).getDocAsJSON().getJSONArray("lead_paragraph").getString(0)%>
 					</div>
 				</div></li>
 			<%
@@ -101,7 +107,7 @@
 			%>
 			<%
 				i++;
-					  		}
+													  		}
 			%>
 		</ul>
 	</div>
