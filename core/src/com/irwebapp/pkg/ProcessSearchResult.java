@@ -122,8 +122,8 @@ public class ProcessSearchResult {
 			double meanRating = getMeanRating(ratingsForDocument, noOfVotes);
 			double meanRatingOfSystem = database.getAverageRating(conn);
 			
-			double weightedRating  = (noOfVotes/ noOfVotes + minimumVotesRequired) * meanRating;		//Formula from IMDb
-			weightedRating += (meanRating/ noOfVotes + minimumVotesRequired) * meanRatingOfSystem;
+			double weightedRating  = (noOfVotes/ (noOfVotes + minimumVotesRequired)) * meanRating;		//Formula from IMDb
+			weightedRating += (meanRating/ (noOfVotes + minimumVotesRequired)) * meanRatingOfSystem;
 			int hitsForCurrentDocument = ratingsForDocument.get("hits");
 			double totalHits = database.getTotalHits(conn);
 			double weightForBaysianAverage =  (double)hitsForCurrentDocument/totalHits;					//Using Bayesian average
@@ -138,6 +138,7 @@ public class ProcessSearchResult {
 		return totalRatingCurrentDocument;
 	}
 	
+	
 	public static int getNumberOfVotes(HashMap<String, Integer> ratingsForDocument){
 		int result = 0;
 		result += ratingsForDocument.get("five_star");
@@ -150,6 +151,8 @@ public class ProcessSearchResult {
 	
 	
 	public static double getMeanRating(HashMap<String, Integer> ratingsForDocument, double noOfVotes){
+		if(noOfVotes < 1)
+			return 0.0;
 		int totalRating = 0;
 		totalRating += ratingsForDocument.get("five_star") * 5;
 		totalRating += ratingsForDocument.get("four_star") * 4;
