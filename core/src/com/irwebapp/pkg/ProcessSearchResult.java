@@ -23,16 +23,22 @@ public class ProcessSearchResult {
 
 	private String search;
 	private final String USER_AGENT = "Mozilla/5.0 (Windows NT 5.1; rv:19.0) Gecko/20100101 Firefox/19.0";
-
+	static Connection conn;
 	public ProcessSearchResult(String search) {
 		this.search = search;
+		try {
+			conn =  database.getConnection();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public String getContent() {
 		String content = "";
 		try {
 			this.search = this.search.replaceAll(" ", "%20");
-			String url = "http://192.168.0.110:8983/solr/gettingstarted_shard1_replica1/select?q="
+			String url = "http://localhost:8983/solr/gettingstarted_shard1_replica1/select?q="
 					+ this.search + "&rows=10000000&wt=json&indent=true";
 			URL obj = new URL(url);
 			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -115,7 +121,7 @@ public class ProcessSearchResult {
 	public static double getRatingForDoc(String doc_id) {
 		double totalRatingCurrentDocument = 0.0;
 		try {
-			Connection conn = database.getConnection();
+			
 			HashMap<String, Integer> ratingsForDocument = database.getDocumentRatings(conn, doc_id);
 			double noOfVotes = (double)getNumberOfVotes(ratingsForDocument);
 			double minimumVotesRequired = 10.0;
@@ -141,11 +147,15 @@ public class ProcessSearchResult {
 	
 	public static int getNumberOfVotes(HashMap<String, Integer> ratingsForDocument){
 		int result = 0;
-		result += ratingsForDocument.get("five_star");
-		result += ratingsForDocument.get("four_star");
-		result += ratingsForDocument.get("three_star");
-		result += ratingsForDocument.get("two_star");
-		result += ratingsForDocument.get("one_star");
+		try{
+			result += ratingsForDocument.get("five_star");
+			result += ratingsForDocument.get("four_star");
+			result += ratingsForDocument.get("three_star");
+			result += ratingsForDocument.get("two_star");
+			result += ratingsForDocument.get("one_star");
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
 		return result;
 	}
 	
@@ -154,11 +164,15 @@ public class ProcessSearchResult {
 		if(noOfVotes < 1)
 			return 0.0;
 		int totalRating = 0;
-		totalRating += ratingsForDocument.get("five_star") * 5;
-		totalRating += ratingsForDocument.get("four_star") * 4;
-		totalRating += ratingsForDocument.get("three_star") * 3;
-		totalRating += ratingsForDocument.get("two_star") * 2;
-		totalRating += ratingsForDocument.get("one_star") * 1;
+		try{
+			totalRating += ratingsForDocument.get("five_star") * 5;
+			totalRating += ratingsForDocument.get("four_star") * 4;
+			totalRating += ratingsForDocument.get("three_star") * 3;
+			totalRating += ratingsForDocument.get("two_star") * 2;
+			totalRating += ratingsForDocument.get("one_star") * 1;
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
 		return (double)totalRating/(double)noOfVotes;
 	}
 
