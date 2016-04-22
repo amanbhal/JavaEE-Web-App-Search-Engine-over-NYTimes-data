@@ -9,6 +9,8 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="../extra_jars/json-20160212.jar"/>
+	<classpathentry kind="lib" path="../extra_jars/org.json.jar"/>
+	<classpathentry kind="lib" path="../extra_jars/javax.servlet.jar"/>
+	<classpathentry kind="lib" path="../mysql-connector-java-5.1.38-bin.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

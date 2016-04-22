@@ -103,7 +103,7 @@ public class database {
 			}
 			System.out.println("Successfully retrieved data !!");
 		} catch (Exception ex) {
-			System.out.println(ex.getMessage());
+          			ex.printStackTrace();
 		}
 
 		return result;
@@ -169,14 +169,14 @@ public class database {
 		Connection conn = null;
 		try {
 			String driver = "com.mysql.jdbc.Driver";
-			String url = "jdbc:mysql://192.168.0.110:3306/first_database";
+			String url = "jdbc:mysql://localhost:3306/first_database";
 			String username = "root";
 			String password = " ";
 			Class.forName(driver);
 			conn = DriverManager.getConnection(url, username, password);
 			System.out.println("Successfully Connected");
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 		return conn;
 	}
