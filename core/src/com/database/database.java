@@ -55,7 +55,7 @@ public class database {
 			int noOfDocs = getNumberOfDocuments(conn);
 			double incrementInRating = (double)ratingValue / (double)noOfDocs;
 			String query = "UPDATE global_rating SET average_rating = average_rating + '" + incrementInRating +
-						"', total_hits =  total_hits + 1 where id = 1";
+						"' where id = 1";
 			PreparedStatement sqlStatement = (PreparedStatement) conn.prepareStatement(query);
 			sqlStatement.executeUpdate();
 			System.out.println("Updated successfully.");
@@ -64,6 +64,17 @@ public class database {
 		} 
 	}
 	
+	public static void updateTotalHits(Connection conn) throws Exception {
+		try {
+			int noOfDocs = getNumberOfDocuments(conn);
+			String query = "UPDATE global_rating SET total_hits = total_hits + 1 where id = 1";
+			PreparedStatement sqlStatement = (PreparedStatement) conn.prepareStatement(query);
+			sqlStatement.executeUpdate();
+			System.out.println("Updated successfully.");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} 
+	}
 	public static int getNumberOfDocuments(Connection conn) throws Exception{
 	int numberOfDocuments = 0;
 	PreparedStatement sqlStatement = conn.prepareStatement("SELECT count(*) FROM relevance ");
