@@ -50,7 +50,7 @@
 		String time = (String)parsedContent.get("respones_time_in_millisecond");
 		Map<String, List<Document>> year_docidMap = (TreeMap<String, List<Document>>)parsedContent.get("year_docMap");
 		Map<String, List<Document>> map = (TreeMap<String, List<Document>>) session.getAttribute("data");
-		List<Document> yearData= map.get(yr);
+		List<Document> yearData = map.get(yr);
 	%>
 	<%
 		session.setAttribute("data", year_docidMap);
@@ -118,31 +118,16 @@
 			for(int j=0; j<10; j++){ 
 				String headline = yearData.get(j).getDocAsJSON().getJSONArray("headline").getString(0);
 				String lead_para = yearData.get(j).getDocAsJSON().getJSONArray("lead_paragraph").getString(0);
+				Document passData = yearData.get(j);
 		%>
 		<div class="article parentNode">
 			<i class="fa fa-newspaper-o fa-lg fa-pull-left fa-border" aria-hidden="true"></i>
-			<h4 style="margin-bottom:20px;"><a href="javascript:hideshow()"><%=headline%></a></h4>
+			<h4 style="margin-bottom:20px;"><a href="javascript:show('<%= headline %>')"><%=headline%></a></h4>
 			<i class="fa fa-paragraph fa-pull-left fa-border" aria-hidden="true"></i>
 			<p style="margin-bottom:20px;"><%=lead_para %></p>
 			<i class="fa fa-star fa-pull-left fa-border" aria-hidden="true"></i>
 			<p>Rating:
-			<div id="classNode" class="childNode">
-				<p>kwfhjvbkhbvksdjbvksbk</p>
-				<br>
-				<br>
-				<h2>bkbkhbdskhsbv</h2>
-			</div>
 		</div>
-		<script type="text/javascript">
-			function hideshow(){
-				if (document.getElementById("classNode").style.visibility == "visible"){
-					document.getElementById("classNode").style.visibility = "hidden";
-				}
-				else{
-					document.getElementById("classNode").style.visibility = "visible";
-				}
-			}
-		</script>
 		<br>
 		<hr style="width:60%; border-top:2px solid #eee; margin-left:15px;" align="left" size="3px">
 		<br>
@@ -150,6 +135,25 @@
 			}
 		%>
 	</div>
+		<div id="childNode">
+			<div id="insideChild">
+				
+				<a href="javascript:hide()"> Close </a>
+			</div>
+		</div>
+		<script type="text/javascript">
+			function show(headline){
+				document.getElementById("childNode").style.visibility = "visible";
+				var div = document.getElementById("insideChild");
+				var p = document.createElement("P");
+				var headlineText = document.createTextNode(headline);
+				p.appendChild(headlineText);
+				div.appendChild(p);
+			}
+			function hide() {
+				document.getElementById("childNode").style.visibility = "hidden";
+			}
+		</script>
 	
 </body>
 </html>
