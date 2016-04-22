@@ -31,7 +31,12 @@ public class OpenFileServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		response.setContentType("text/html");
 		String year = request.getParameter("year");
+		String search = request.getParameter("search");
+		ProcessSearchResult process = new ProcessSearchResult(search);
+		String content = process.getContent();
+		request.setAttribute("content", content);
 		request.setAttribute("year", year);
+		request.setAttribute("search", search);
 		request.getRequestDispatcher("openTimeline.jsp").forward(request, response);
 		
 	}

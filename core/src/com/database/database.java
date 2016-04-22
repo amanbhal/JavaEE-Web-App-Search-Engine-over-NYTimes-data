@@ -158,7 +158,7 @@ public class database {
 		Connection conn = null;
 		try {
 			String driver = "com.mysql.jdbc.Driver";
-			String url = "jdbc:mysql://localhost:3306/first_database";
+			String url = "jdbc:mysql://192.168.0.110:3306/first_database";
 			String username = "root";
 			String password = " ";
 			Class.forName(driver);

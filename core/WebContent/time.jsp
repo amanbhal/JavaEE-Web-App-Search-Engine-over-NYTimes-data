@@ -40,16 +40,19 @@
 	<%@ page import="java.util.*"%>
 	<%
 		String content = (String) request.getAttribute("content");
-			HashMap<String, Object> parsedContent = ProcessSearchResult.getContenForTimeTimeLine(content);
-			String numOfResponse = (String)parsedContent.get("numOfResponse");
-			String time = (String)parsedContent.get("respones_time_in_millisecond");
-			Map<String, List<Document>> year_docidMap = (TreeMap<String, List<Document>>)parsedContent.get("year_docMap");
+		String search = (String) request.getAttribute("search");
+		HashMap<String, Object> parsedContent = ProcessSearchResult.getContenForTimeTimeLine(content);
+		String numOfResponse = (String)parsedContent.get("numOfResponse");
+		String time = (String)parsedContent.get("respones_time_in_millisecond");
+		Map<String, List<Document>> year_docidMap = (TreeMap<String, List<Document>>)parsedContent.get("year_docMap");
 	%>
 	<%
 		session.setAttribute("data", year_docidMap);
 	%>
 	<div class="container">
 		<div class="page-header">
+			<h3 id="timeline"><span style="color:red;">Showing results for </span><%= search %></h3>
+			<br>
 			<h4 id="timeline"><%=numOfResponse%>
 				results found in
 				<%=time%>
@@ -59,8 +62,8 @@
 		<ul class="timeline">
 			<%
 				int i=0;
-													  		for (String year : year_docidMap.keySet()) {
-													  			String url = "OpenFileServlet?year="+year;
+		  		for (String year : year_docidMap.keySet()) {
+		  			String url = "OpenFileServlet?year="+year+"&search="+search;
 			%>
 			<%
 				if(i%2==0) {
@@ -86,7 +89,7 @@
 				</div></li>
 			<%
 				} 
-													    else{
+			else{
 			%>
 			<li class="timeline-inverted"><a id="dateLink" href=<%=url%>><div
 						class="timeline-badge warning"><%=year%></div></a>
