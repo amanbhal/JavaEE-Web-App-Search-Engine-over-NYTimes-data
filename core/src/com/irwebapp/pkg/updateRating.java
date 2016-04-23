@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.database.database;
+
 /**
  * Servlet implementation class updateRating
  */
@@ -25,9 +27,15 @@ public class updateRating extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		String docID = request.getParameter("docID");
+		String value = request.getParameter("rating");
+		int val = Integer.parseInt(value);
+		ProcessSearchResult.updateDocumentRating(docID,val);
 		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
 	}
-
+	
+	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
