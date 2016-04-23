@@ -7,7 +7,7 @@
 #leftTimeline {
 	position: relative;
 	width: 30%;
-	height: 4000px;
+	height: 100%;
 	float: right;
 	margin-left: 10px;
 	margin-right: 10px;
@@ -28,11 +28,26 @@
 
 #childNode{
 	visibility: hidden;
+	z-index: 200;
 	position: fixed;
 	top: 20%;
-	left: 20%;
-	background: black;
-	color: white;
+	left: 5%;
+	right: 5%;
+	color: black;
+	background-color: #D3D3D3;
+	border-radius: 25px;
+    -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
+  	box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
+}
+
+#insideChild {
+	width: 90%;
+	padding: 20px;
+}
+
+#leadparaDiv {
+	height: 250px;
+	overflow-y: auto;
 }
 
 #searchResult > .article {
@@ -112,8 +127,8 @@
 
 .timeline > li > a > .timeline-badge {
   color: #fff;
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
   line-height: 50px;
   font-size: 1.1em;
   text-align: center;
