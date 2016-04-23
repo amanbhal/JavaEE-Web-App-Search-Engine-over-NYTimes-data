@@ -83,6 +83,15 @@ public class ProcessSearchResult {
 			//Database changes
 			double meanRatingOfSystem = database.getAverageRating(conn);
 			double totalHits = database.getTotalHits(conn);
+			ArrayList<String> doc_ids = new ArrayList<String>();
+			for (int i = 0; i < arrayOfDocsAsJSON.length(); i++) {
+				JSONObject JSONObjectForDoc = arrayOfDocsAsJSON
+						.getJSONObject(i);
+				String doc_id = (String) JSONObjectForDoc.get("id");
+				doc_ids.add(doc_id);
+			}
+			
+			HashMap<String,HashMap<String, Integer>> ratingsForAllDocs = database.getRatingsForAllDocuments(conn, doc_ids);
 			for (int i = 0; i < arrayOfDocsAsJSON.length(); i++) {
 
 				JSONObject JSONObjectForDoc = arrayOfDocsAsJSON
@@ -91,7 +100,7 @@ public class ProcessSearchResult {
 				String year = JSONObjectForDoc.getJSONArray("date")
 						.getString(0).substring(0, 4);
 				String doc_id = (String) JSONObjectForDoc.get("id");
-				double ratingForDoc = getRatingForDoc(doc_id, meanRatingOfSystem, totalHits);
+				double ratingForDoc = getRatingForDoc(ratingsForAllDocs.get(doc_id), meanRatingOfSystem, totalHits);
 
 				Document newDoc = new Document(JSONObjectForDoc, ratingForDoc);
 
@@ -120,11 +129,9 @@ public class ProcessSearchResult {
 		return result;
 	}
 
-	public static double getRatingForDoc(String doc_id, double meanRatingOfSystem, double totalHits) {
+	public static double getRatingForDoc(HashMap<String, Integer> ratingsForDocument, double meanRatingOfSystem, double totalHits) {
 		double totalRatingCurrentDocument = 0.0;
 		try {
-			
-			HashMap<String, Integer> ratingsForDocument = database.getDocumentRatings(conn, doc_id);
 			double noOfVotes = (double)getNumberOfVotes(ratingsForDocument);
 			double minimumVotesRequired = 10.0;
 			double meanRating = getMeanRating(ratingsForDocument, noOfVotes);

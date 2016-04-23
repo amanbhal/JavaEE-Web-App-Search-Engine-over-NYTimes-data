@@ -85,14 +85,48 @@ public class database {
 	return numberOfDocuments;
 }
 
+	public static HashMap<String,HashMap<String, Integer>> getRatingsForAllDocuments(Connection conn, ArrayList<String> doc_ids) throws Exception {
+		HashMap<String,HashMap<String, Integer>> result = new HashMap<String,HashMap<String, Integer>>();
+		try {
+			StringBuilder query = new StringBuilder("SELECT * FROM relevance where doc_id in (");
+			for( int i = 0; i < doc_ids.size() -1 ; i++){
+				query.append("?,");
+			}
+			
+			query.append("?)");
+			PreparedStatement sqlStatement = conn
+					.prepareStatement(query.toString());
+			for(int i = 0; i < doc_ids.size() ; i++ ){
+				sqlStatement.setString(i+1, doc_ids.get(i));
+			}
+			
+			ResultSet res = sqlStatement.executeQuery();
+//			System.out.println("_____Retrieving data______");
+			while (res.next()) {
+				HashMap<String, Integer> ratingForDoc = new HashMap<String, Integer>();
+				ratingForDoc.put("five_star", Integer.parseInt(res.getString(2)));
+				ratingForDoc.put("four_star", Integer.parseInt(res.getString(3)));
+				ratingForDoc.put("three_star", Integer.parseInt(res.getString(4)));
+				ratingForDoc.put("two_star", Integer.parseInt(res.getString(5)));
+				ratingForDoc.put("one_star", Integer.parseInt(res.getString(6)));
+				ratingForDoc.put("hits", Integer.parseInt(res.getString(7)));
+				result.put(res.getString(1), ratingForDoc);
+			}
+//			System.out.println("Successfully retrieved data !!");
+		} catch (Exception ex) {
+          			ex.printStackTrace();
+		}
 
+		return result;
+	}
+	
 	public static HashMap<String, Integer> getDocumentRatings(Connection conn, String doc_id) throws Exception {
 		HashMap<String, Integer> result = new HashMap<String, Integer>();
 		try {
 			PreparedStatement sqlStatement = (PreparedStatement) conn
 					.prepareStatement("SELECT * FROM relevance where doc_id = '" + doc_id + "'");
 			ResultSet res = sqlStatement.executeQuery();
-			System.out.println("_____Retrieving data______");
+//			System.out.println("_____Retrieving data______");
 			if (res.next()) {
 				result.put("five_star", Integer.parseInt(res.getString(2)));
 				result.put("four_star", Integer.parseInt(res.getString(3)));
@@ -101,7 +135,7 @@ public class database {
 				result.put("one_star", Integer.parseInt(res.getString(6)));
 				result.put("hits", Integer.parseInt(res.getString(7)));
 			}
-			System.out.println("Successfully retrieved data !!");
+//			System.out.println("Successfully retrieved data !!");
 		} catch (Exception ex) {
           			ex.printStackTrace();
 		}
@@ -113,7 +147,7 @@ public class database {
 		double averageRating = 0.0;
 		PreparedStatement sqlStatement = (PreparedStatement)conn.prepareStatement("SELECT average_rating FROM global_rating where id = 1");
 		ResultSet res = sqlStatement.executeQuery();
-		System.out.println("Data retrieved");
+//		System.out.println("Data retrieved");
 		if (res.next()) {
 			  averageRating = Double.parseDouble(res.getString(1));
 		}
