@@ -52,11 +52,7 @@
 		String numOfResponse = (String)parsedContent.get("numOfResponse");
 		String time = (String)parsedContent.get("respones_time_in_millisecond");
 		Map<String, List<Document>> year_docidMap = (TreeMap<String, List<Document>>)parsedContent.get("year_docMap");
-		Map<String, List<Document>> map = (TreeMap<String, List<Document>>) session.getAttribute("data");
-		List<Document> yearData = map.get(yr);
-	%>
-	<%
-		session.setAttribute("data", year_docidMap);
+		List<Document> yearData = year_docidMap.get(yr);
 	%>
 	<div class="container" id="leftTimeline">
 		<div id="innerTimeline">
@@ -137,7 +133,9 @@
 				int totalUsers = star5+star4+star3+star2+star1;
 				double rating = (double)(star5*5+star4*4+star3*3+star2*2+star1*1)/(totalUsers);
 				headline = headline.replaceAll("'","");
+				headline = headline.replaceAll("??","");
 				lead_para = lead_para.replaceAll("'","");
+				lead_para = lead_para.replaceAll("??","");
 		%>
 		<div class="article parentNode">
 			<i class="fa fa-newspaper-o fa-lg fa-pull-left fa-border" aria-hidden="true"></i>
