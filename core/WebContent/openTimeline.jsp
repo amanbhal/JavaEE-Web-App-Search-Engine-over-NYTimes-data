@@ -133,9 +133,9 @@
 				int totalUsers = star5+star4+star3+star2+star1;
 				double rating = (double)(star5*5+star4*4+star3*3+star2*2+star1*1)/(totalUsers);
 				headline = headline.replaceAll("'","");
-				headline = headline.replaceAll("??","");
+				//headline = headline.replaceAll("??","");
 				lead_para = lead_para.replaceAll("'","");
-				lead_para = lead_para.replaceAll("??","");
+				//lead_para = lead_para.replaceAll("??","");
 		%>
 		<div class="article parentNode">
 			<i class="fa fa-newspaper-o fa-lg fa-pull-left fa-border" aria-hidden="true"></i>
@@ -167,6 +167,7 @@
 				<i class="fa fa-paragraph fa-pull-left fa-border" aria-hidden="true"></i>
 				<p id="leadpara" style="margin-bottom:20px;"></p>
 			</div>
+			<
 			<i class="fa fa-star fa-pull-left fa-border" aria-hidden="true"></i>
 			<p>User Ratings:</p>
 			<table>
