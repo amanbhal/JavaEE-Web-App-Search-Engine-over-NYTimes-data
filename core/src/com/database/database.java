@@ -50,7 +50,7 @@ public class database {
 	
 	public static void updateGlobalRatings(Connection conn, int ratingValue) throws Exception {
 		try {
-			String query = "UPDATE global_rating SET average_rating = average_rating + 1 where id = 1";
+			String query = "UPDATE global_rating SET average_rating = average_rating + '" + ratingValue +"' where id = 1";
 			PreparedStatement sqlStatement = (PreparedStatement) conn.prepareStatement(query);
 			sqlStatement.executeUpdate();
 			System.out.println("Updated successfully.");
@@ -148,7 +148,7 @@ public class database {
 			totalRating = Double.parseDouble(res.getString(1));
 		}
 		int noOfDocs = getNumberOfDocuments(conn);
-		averageRating = totalRating/noOfDocs;
+		averageRating = totalRating/(double)noOfDocs;
 		return averageRating;
 	}
 	
