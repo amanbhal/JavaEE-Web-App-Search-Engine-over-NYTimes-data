@@ -39,4 +39,14 @@
     <servlet-name>updateRating</servlet-name>
     <url-pattern>/updateRating</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>updateClick</display-name>
+    <servlet-name>updateClick</servlet-name>
+    <servlet-class>com.irwebapp.pkg.updateClick</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>updateClick</servlet-name>
+    <url-pattern>/updateClick</url-pattern>
+  </servlet-mapping>
 </web-app>

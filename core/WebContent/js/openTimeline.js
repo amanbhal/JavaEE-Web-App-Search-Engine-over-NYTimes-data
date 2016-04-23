@@ -1,3 +1,52 @@
+function show(headline,leadpara,five,four,three,two,one,docID){
+			var xhttp = new XMLHttpRequest();
+		    xhttp.open("GET", "updateClick?docID="+docID, true);
+		    xhttp.send();
+			document.getElementById("childNode").style.visibility = "visible";
+			//var div1 = document.getElementById("modal-title");
+			//var div2 = document.getElementById("modal-body");
+			var div1 = document.getElementById("headline");
+			var div2 = document.getElementById("leadpara");
+			var div3 = document.getElementById("5_star_user");
+			var div4 = document.getElementById("4_star_user");
+			var div5 = document.getElementById("3_star_user");
+			var div6 = document.getElementById("2_star_user");
+			var div7 = document.getElementById("1_star_user");
+			var div8 = document.getElementById("docID");
+			div1.innerHTML = "";
+			div2.innerHTML = "";
+			div3.innerHTML = "";
+			div4.innerHTML = "";
+			div5.innerHTML = "";
+			div6.innerHTML = "";
+			div7.innerHTML = "";
+			div8.innerHTML = "";
+			var headlineText = document.createTextNode(headline);
+			var leadparaText = document.createTextNode(leadpara);
+			var rating5 = document.createTextNode(" "+five+" Users");
+			var rating4 = document.createTextNode(four+" Users");
+			var rating3 = document.createTextNode(three+" Users");
+			var rating2 = document.createTextNode(two+" Users");
+			var rating1 = document.createTextNode(one+" Users");
+			var di = document.createTextNode(docID);
+			div1.appendChild(headlineText);
+			div2.appendChild(leadparaText);
+			div3.appendChild(rating5);
+			div4.appendChild(rating4);
+			div5.appendChild(rating3);
+			div6.appendChild(rating2);
+			div7.appendChild(rating1);
+			div8.appendChild(di);
+			$("#stars-5").rating();
+			$("#stars-4").rating();
+			$("#stars-3").rating();
+			$("#stars-2").rating();
+			$("#stars-1").rating();
+		}
+		function hide() {
+			document.getElementById("childNode").style.visibility = "hidden";
+		}
+
 var __slice = [].slice;
 
 (function($, window) {

@@ -6,18 +6,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.database.database;
-
 /**
- * Servlet implementation class updateRating
+ * Servlet implementation class updateClick
  */
-public class updateRating extends HttpServlet {
+public class updateClick extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public updateRating() {
+    public updateClick() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -28,14 +26,9 @@ public class updateRating extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String docID = request.getParameter("docID");
-		String value = request.getParameter("rating");
-		int val = Integer.parseInt(value);
-		ProcessSearchResult.updateDocumentRating(docID,val);
-		
-		
+		ProcessSearchResult.updateDocumentHits(docID);
 	}
-	
-	
+
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
