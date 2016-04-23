@@ -134,6 +134,8 @@
 				int star3 = userRatings.get("three_star");
 				int star2 = userRatings.get("two_star");
 				int star1 = userRatings.get("one_star");
+				int totalUsers = star5+star4+star3+star2+star1;
+				double rating = (double)(star5*5+star4*4+star3*3+star2*2+star1*1)/(totalUsers);
 				headline = headline.replaceAll("'","");
 				lead_para = lead_para.replaceAll("'","");
 		%>
@@ -144,7 +146,12 @@
 			<!--<i class="fa fa-paragraph fa-pull-left fa-border" aria-hidden="true"></i>
 			<p style="margin-bottom:20px;"><%=lead_para %></p>-->
 			<i class="fa fa-star fa-pull-left fa-border" aria-hidden="true"></i>
-			<p>Rating:
+			<%if(Double.isNaN(rating)) {%>
+				<p>Rating: 0 by 0 Users
+			<%} 
+			else {%>
+				<p>Rating: <%= rating %> by <%= totalUsers %> Users
+			<%} %>
 		</div>
 		<br>
 		<hr style="width:60%; border-top:2px solid #eee; margin-left:15px;" align="left" size="3px">
@@ -194,45 +201,14 @@
 				
 			
 			<p>Provide Rating:</p>
-			<!--
-			<form action="#">
-				<span class="rating">
-				        <input type="radio" class="rating-input" id="rating-input-1-5" name="rating-input-1"/>
-				        <label for="rating-input-1-5" class="rating-star"></label>
-				        <input type="radio" class="rating-input" id="rating-input-1-4" name="rating-input-1"/>
-				        <label for="rating-input-1-4" class="rating-star"></label>
-				        <input type="radio" class="rating-input"
-				                id="rating-input-1-3" name="rating-input-1"/>
-				        <label for="rating-input-1-3" class="rating-star"></label>
-				        <input type="radio" class="rating-input"
-				                id="rating-input-1-2" name="rating-input-1"/>
-				        <label for="rating-input-1-2" class="rating-star"></label>
-				        <input type="radio" class="rating-input"
-				                id="rating-input-1-1" name="rating-input-1"/>
-				        <label for="rating-input-1-1" class="rating-star"></label>
-				</span>
-				<a onclick="submitRating(document.getElementById())"></a>
-			</form>
-			-->
 			<div class="container">
 		    <div class="row lead">
 		        <div id="stars" class="starrr"></div>
 		        <div id="docID" style="visibility:hidden;"></div>
 			</div>
-		    <!--
-		    <div class="row lead">
-		        <p>Also you can give a default rating by adding attribute data-rating</p>
-		        <div id="stars-existing" class="starrr" data-rating='4'></div>
-		        You gave a rating of <span id="count-existing">4</span> star(s)
-		    </div>
-		    -->
 			<button style="position:relative; left:45%;" class="btn btn-danger" onclick="hide()">Close</button>
 			<br>
 		</div>
 	</div>
-	<script type="text/javascript">
-		
-	</script>
-
 </body>
 </html>

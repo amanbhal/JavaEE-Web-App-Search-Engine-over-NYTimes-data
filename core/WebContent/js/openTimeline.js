@@ -154,7 +154,7 @@ $(function() {
 $( document ).ready(function() {
       
   $('#stars').on('starrr:change', function(e, value){
-	  alert(value);
+	  //alert(value);
 	  var docID = $("#docID").text();
 	  var xhttp = new XMLHttpRequest();
 	  xhttp.open("GET", "updateRating?docID="+docID+"&rating="+value, true);
@@ -163,7 +163,7 @@ $( document ).ready(function() {
   });
   
   $('#stars-existing').on('starrr:change', function(e, value){
-	  alert(value);
+	  //alert(value);
 	  var docID = $("#docID").text();
 	  var xhttp = new XMLHttpRequest();
 	  xhttp.open("GET", "updateRating?docID="+docID+"&rating="+value, true);
