@@ -129,13 +129,31 @@ public class ProcessSearchResult {
 		return result;
 	}
 	public static void updateDocumentRating(String doc_id, int rating){
+		String rating_name = "three_star";
 		switch (rating) {
+		case 5:
+			rating_name = "five_star";
+			break;
+		case 4:
+			rating_name = "four_star";
+			break;
+		case 2:
+			rating_name = "two_star";
+			break;
 		case 1:
-			
+			rating_name = "one_star";
 			break;
 
 		default:
+			rating_name = "three_star";
 			break;
+		}
+		
+		try {
+			database.updateDocumentRatings(conn, doc_id, rating_name);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	

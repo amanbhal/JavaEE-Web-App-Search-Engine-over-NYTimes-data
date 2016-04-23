@@ -44,10 +44,8 @@ public class database {
 			PreparedStatement sqlStatement = (PreparedStatement) conn.prepareStatement(query);
 			sqlStatement.executeUpdate();
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		} finally {
-			System.out.println("Updated successfully.");
-		}
+			e.printStackTrace();
+		} 
 	}
 	
 	public static void updateGlobalRatings(Connection conn, int ratingValue) throws Exception {
