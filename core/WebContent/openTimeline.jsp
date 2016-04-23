@@ -12,6 +12,8 @@
 		integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
 		crossorigin="anonymous">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<title>Search Results</title>
 </head>
@@ -50,7 +52,7 @@
 		String time = (String)parsedContent.get("respones_time_in_millisecond");
 		Map<String, List<Document>> year_docidMap = (TreeMap<String, List<Document>>)parsedContent.get("year_docMap");
 		Map<String, List<Document>> map = (TreeMap<String, List<Document>>) session.getAttribute("data");
-		List<Document> yearData= map.get(yr);
+		List<Document> yearData = map.get(yr);
 	%>
 	<%
 		session.setAttribute("data", year_docidMap);
@@ -115,34 +117,27 @@
 		<br>
 		<hr style="width:60%; border-top:2px solid #eee; margin-left:15px;" align="left" size="3px">
 		<%
-			for(int j=0; j<10; j++){ 
+			int maxIteration = 0;
+			if(yearData.size()<10)
+				maxIteration = yearData.size();
+			else
+				maxIteration = 10;
+			for(int j=0; j<maxIteration; j++){ 
 				String headline = yearData.get(j).getDocAsJSON().getJSONArray("headline").getString(0);
 				String lead_para = yearData.get(j).getDocAsJSON().getJSONArray("lead_paragraph").getString(0);
+				Document passData = yearData.get(j);
+				headline = headline.replaceAll("'","");
+				lead_para = lead_para.replaceAll("'","");
 		%>
 		<div class="article parentNode">
 			<i class="fa fa-newspaper-o fa-lg fa-pull-left fa-border" aria-hidden="true"></i>
-			<h4 style="margin-bottom:20px;"><a href="javascript:hideshow()"><%=headline%></a></h4>
-			<i class="fa fa-paragraph fa-pull-left fa-border" aria-hidden="true"></i>
-			<p style="margin-bottom:20px;"><%=lead_para %></p>
+			<h4 style="margin-bottom:20px;"><a href="javascript:show('<%= headline %>','<%= lead_para %>')"><%=headline%></a></h4>
+			<!--<h4 style="margin-bottom:20px;"><a onclick="show('<%= headline %>','<%= lead_para %>')"; href="#myModal" data-toggle="modal"><%=headline%></a></h4>-->
+			<!--<i class="fa fa-paragraph fa-pull-left fa-border" aria-hidden="true"></i>
+			<p style="margin-bottom:20px;"><%=lead_para %></p>-->
 			<i class="fa fa-star fa-pull-left fa-border" aria-hidden="true"></i>
 			<p>Rating:
-			<div id="classNode" class="childNode">
-				<p>kwfhjvbkhbvksdjbvksbk</p>
-				<br>
-				<br>
-				<h2>bkbkhbdskhsbv</h2>
-			</div>
 		</div>
-		<script type="text/javascript">
-			function hideshow(){
-				if (document.getElementById("classNode").style.visibility == "visible"){
-					document.getElementById("classNode").style.visibility = "hidden";
-				}
-				else{
-					document.getElementById("classNode").style.visibility = "visible";
-				}
-			}
-		</script>
 		<br>
 		<hr style="width:60%; border-top:2px solid #eee; margin-left:15px;" align="left" size="3px">
 		<br>
@@ -150,6 +145,52 @@
 			}
 		%>
 	</div>
+	<div id="myModal" class="modal fade" role="dialog">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	        <h4 id="modal-title" class="modal-title"></h4>
+	      </div>
+	      <div class="modal-body">
+	        <p id="modal-body"></p>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 	
+	<div id="childNode">
+		<div id="insideChild" class="container">
+			<i class="fa fa-newspaper-o fa-lg fa-pull-left fa-border" aria-hidden="true"></i>
+			<h4 style="margin-bottom:20px;"><a id="headline"></a></h4>
+			<div id="leadparaDiv">
+				<i class="fa fa-paragraph fa-pull-left fa-border" aria-hidden="true"></i>
+				<p id="leadpara" style="margin-bottom:20px;"></p>
+			</div>
+			<i class="fa fa-star fa-pull-left fa-border" aria-hidden="true"></i>
+			<p>Rating:</p>
+			<a href="javascript:hide()"> Close </a>
+		</div>
+	</div>
+	<script type="text/javascript">
+		function show(headline,leadpara){
+			document.getElementById("childNode").style.visibility = "visible";
+			//var div1 = document.getElementById("modal-title");
+			//var div2 = document.getElementById("modal-body");
+			var div1 = document.getElementById("headline");
+			var div2 = document.getElementById("leadpara");
+			var headlineText = document.createTextNode(headline);
+			var leadparaText = document.createTextNode(leadpara);
+			div1.appendChild(headlineText);
+			div2.appendChild(leadparaText);
+		}
+		function hide() {
+			document.getElementById("childNode").style.visibility = "hidden";
+		}
+	</script>
+
 </body>
 </html>
