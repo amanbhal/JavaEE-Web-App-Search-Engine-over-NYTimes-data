@@ -30,14 +30,12 @@
 	visibility: hidden;
 	z-index: 200;
 	position: fixed;
-	top: 20%;
+	top: 15%;
 	left: 5%;
 	right: 5%;
 	color: black;
 	background-color: #D3D3D3;
 	border-radius: 25px;
-    -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
-  	box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
 }
 
 #insideChild {
@@ -46,7 +44,7 @@
 }
 
 #leadparaDiv {
-	height: 250px;
+	height: 150px;
 	overflow-y: auto;
 }
 
@@ -204,4 +202,33 @@
 
 .timeline-body > p + p {
   margin-top: 5px;
+}
+
+.rating {
+    overflow: hidden;
+    display: inline-block;
+    font-size: 0;
+    position: relative;
+}
+.rating-input {
+    float: right;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    margin: 0 0 0 -16px;
+    opacity: 0;
+}
+.rating:hover .rating-star:hover,
+.rating:hover .rating-star:hover ~ .rating-star,
+.rating-input:checked ~ .rating-star {
+    background-position: 0 0;
+}
+.rating-star,
+.rating:hover .rating-star {
+    position: relative;
+    float: right;
+    display: block;
+    width: 16px;
+    height: 16px;
+    background: url('http://kubyshkin.ru/samples/star-rating/star.png') 0 -16px;
 }

@@ -16,6 +16,7 @@
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<title>Search Results</title>
+	<script src="js/openTimeline.js" type="text/javascript"></script>
 </head>
 <body>
 	<nav class="navbar navbar-default" style="background-color:#7E619F;">
@@ -145,22 +146,6 @@
 			}
 		%>
 	</div>
-	<div id="myModal" class="modal fade" role="dialog">
-	  <div class="modal-dialog">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal">&times;</button>
-	        <h4 id="modal-title" class="modal-title"></h4>
-	      </div>
-	      <div class="modal-body">
-	        <p id="modal-body"></p>
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	      </div>
-	    </div>
-	  </div>
-	</div>
 	
 	<div id="childNode">
 		<div id="insideChild" class="container">
@@ -171,8 +156,70 @@
 				<p id="leadpara" style="margin-bottom:20px;"></p>
 			</div>
 			<i class="fa fa-star fa-pull-left fa-border" aria-hidden="true"></i>
-			<p>Rating:</p>
-			<a href="javascript:hide()"> Close </a>
+			<p>User Ratings:</p>
+			<table>
+				<tr>
+					<td>5 Stars</td>
+					<td><div id="stars-5" data-rating="5"><input type="hidden" name="rating"/></div></td>
+					<td>(5 Users)</td>
+				</tr>
+				<tr>
+					<td>4 Stars</td>
+					<td><div id="stars-4" data-rating="4"><input type="hidden" name="rating"/></div></td>
+					<td>(5 Users)</td>
+				</tr>
+				<tr>
+					<td>3 Stars</td>
+					<td><div id="stars-3" data-rating="3"><input type="hidden" name="rating"/></div></td>
+					<td>(5 Users)</td>
+				</tr>
+				<tr>
+					<td>2 Stars</td>
+					<td><div id="stars-2" data-rating="2"><input type="hidden" name="rating"/></div></td>
+					<td>(5 Users)</td>
+				</tr>
+				<tr>
+					<td>1 Stars</td>
+					<td><div id="stars-1" data-rating="1"><input type="hidden" name="rating"/></div></td>
+					<td>(5 Users)</td>
+				</tr>
+			</table>
+				
+			
+			<p>Provide Rating:</p>
+			<form action="#">
+				<span class="rating">
+				        <input type="radio" class="rating-input" id="rating-input-1-5" name="rating-input-1"/>
+				        <label for="rating-input-1-5" class="rating-star"></label>
+				        <input type="radio" class="rating-input" id="rating-input-1-4" name="rating-input-1"/>
+				        <label for="rating-input-1-4" class="rating-star"></label>
+				        <input type="radio" class="rating-input"
+				                id="rating-input-1-3" name="rating-input-1"/>
+				        <label for="rating-input-1-3" class="rating-star"></label>
+				        <input type="radio" class="rating-input"
+				                id="rating-input-1-2" name="rating-input-1"/>
+				        <label for="rating-input-1-2" class="rating-star"></label>
+				        <input type="radio" class="rating-input"
+				                id="rating-input-1-1" name="rating-input-1"/>
+				        <label for="rating-input-1-1" class="rating-star"></label>
+				</span>
+				<a></a>
+			</form>
+			<!--
+			<div class="container">
+		    <div class="row lead">
+		        <div id="stars" class="starrr"></div>
+		        You gave a rating of <span id="count">0</span> star(s)
+			</div>
+		    
+		    <div class="row lead">
+		        <p>Also you can give a default rating by adding attribute data-rating</p>
+		        <div id="stars-existing" class="starrr" data-rating='4'></div>
+		        You gave a rating of <span id="count-existing">4</span> star(s)
+		    </div>
+		    -->
+</div>
+			<button align="center" class="btn btn-lg btn-danger" onclick="hide()">Close</button>
 		</div>
 	</div>
 	<script type="text/javascript">
@@ -182,10 +229,17 @@
 			//var div2 = document.getElementById("modal-body");
 			var div1 = document.getElementById("headline");
 			var div2 = document.getElementById("leadpara");
+			div1.innerHTML = "";
+			div2.innerHTML = "";
 			var headlineText = document.createTextNode(headline);
 			var leadparaText = document.createTextNode(leadpara);
 			div1.appendChild(headlineText);
 			div2.appendChild(leadparaText);
+			$("#stars-5").rating();
+			$("#stars-4").rating();
+			$("#stars-3").rating();
+			$("#stars-2").rating();
+			$("#stars-1").rating();
 		}
 		function hide() {
 			document.getElementById("childNode").style.visibility = "hidden";
