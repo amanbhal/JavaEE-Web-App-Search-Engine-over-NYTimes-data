@@ -29,4 +29,14 @@
     <servlet-name>OpenFileServlet</servlet-name>
     <url-pattern>/OpenFileServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>updateRating</display-name>
+    <servlet-name>updateRating</servlet-name>
+    <servlet-class>com.irwebapp.pkg.updateRating</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>updateRating</servlet-name>
+    <url-pattern>/updateRating</url-pattern>
+  </servlet-mapping>
 </web-app>

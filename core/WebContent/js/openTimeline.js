@@ -106,11 +106,15 @@ $( document ).ready(function() {
       
   $('#stars').on('starrr:change', function(e, value){
 	  alert(value);
+	  
 	  //$('#count').html(value);
   });
   
   $('#stars-existing').on('starrr:change', function(e, value){
 	  alert(value);
+	  var xhttp = new XMLHttpRequest();
+	  xhttp.open("GET", "demo_get.jsp", true);
+	  xhttp.send();
 	  //$('#count-existing').html(value);
   });
 });

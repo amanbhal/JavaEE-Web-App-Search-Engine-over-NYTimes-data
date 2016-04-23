@@ -127,12 +127,19 @@
 				String headline = yearData.get(j).getDocAsJSON().getJSONArray("headline").getString(0);
 				String lead_para = yearData.get(j).getDocAsJSON().getJSONArray("lead_paragraph").getString(0);
 				Document passData = yearData.get(j);
+				String docID = yearData.get(j).getDocAsJSON().getString("id");
+				HashMap<String,Integer> userRatings = ProcessSearchResult.getDocumentRating(docID);
+				int star5 = userRatings.get("five_star");
+				int star4 = userRatings.get("four_star");
+				int star3 = userRatings.get("three_star");
+				int star2 = userRatings.get("two_star");
+				int star1 = userRatings.get("one_star");
 				headline = headline.replaceAll("'","");
 				lead_para = lead_para.replaceAll("'","");
 		%>
 		<div class="article parentNode">
 			<i class="fa fa-newspaper-o fa-lg fa-pull-left fa-border" aria-hidden="true"></i>
-			<h4 style="margin-bottom:20px;"><a href="javascript:show('<%= headline %>','<%= lead_para %>')"><%=headline%></a></h4>
+			<h4 style="margin-bottom:20px;"><a href="javascript:show('<%= headline %>','<%= lead_para %>','<%= star5%>','<%= star4%>','<%= star3%>','<%= star2%>','<%= star1%>','<%=docID%>')"><%=headline%></a></h4>
 			<!--<h4 style="margin-bottom:20px;"><a onclick="show('<%= headline %>','<%= lead_para %>')"; href="#myModal" data-toggle="modal"><%=headline%></a></h4>-->
 			<!--<i class="fa fa-paragraph fa-pull-left fa-border" aria-hidden="true"></i>
 			<p style="margin-bottom:20px;"><%=lead_para %></p>-->
@@ -157,32 +164,31 @@
 			</div>
 			<i class="fa fa-star fa-pull-left fa-border" aria-hidden="true"></i>
 			<p>User Ratings:</p>
-			<% HashMap<String,Integer> userRatings = ProcessSearchResult %>
 			<table>
 				<tr>
 					<td></td>
 					<td><div id="stars-5" data-rating="5"><input type="hidden" name="rating"/></div></td>
-					<td>(5 Users)</td>
+					<td id="5_star_user"></td>
 				</tr>
 				<tr>
 					<td></td>
 					<td><div id="stars-4" data-rating="4"><input type="hidden" name="rating"/></div></td>
-					<td>(5 Users)</td>
+					<td id="4_star_user"></td>
 				</tr>
 				<tr>
 					<td></td>
 					<td><div id="stars-3" data-rating="3"><input type="hidden" name="rating"/></div></td>
-					<td>(5 Users)</td>
+					<td id="3_star_user"></td>
 				</tr>
 				<tr>
 					<td></td>
 					<td><div id="stars-2" data-rating="2"><input type="hidden" name="rating"/></div></td>
-					<td>(5 Users)</td>
+					<td id="2_star_user"></td>
 				</tr>
 				<tr>
 					<td></td>
 					<td><div id="stars-1" data-rating="1"><input type="hidden" name="rating"/></div></td>
-					<td>(5 Users)</td>
+					<td id="1_star_user"></td>
 				</tr>
 			</table>
 				
@@ -211,6 +217,7 @@
 			<div class="container">
 		    <div class="row lead">
 		        <div id="stars" class="starrr"></div>
+		        <div id="docID" style="visibility:hidden;"></div>
 			</div>
 		    <!--
 		    <div class="row lead">
@@ -224,18 +231,38 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-		function show(headline,leadpara){
+		function show(headline,leadpara,five,four,three,two,one,docID){
 			document.getElementById("childNode").style.visibility = "visible";
 			//var div1 = document.getElementById("modal-title");
 			//var div2 = document.getElementById("modal-body");
 			var div1 = document.getElementById("headline");
 			var div2 = document.getElementById("leadpara");
+			var div3 = document.getElementById("5_star_user");
+			var div4 = document.getElementById("4_star_user");
+			var div5 = document.getElementById("3_star_user");
+			var div6 = document.getElementById("2_star_user");
+			var div7 = document.getElementById("1_star_user");
 			div1.innerHTML = "";
 			div2.innerHTML = "";
+			div3.innerHTML = "";
+			div4.innerHTML = "";
+			div5.innerHTML = "";
+			div6.innerHTML = "";
+			div7.innerHTML = "";
 			var headlineText = document.createTextNode(headline);
 			var leadparaText = document.createTextNode(leadpara);
+			var rating5 = document.createTextNode(" "+five+" Users");
+			var rating4 = document.createTextNode(four+" Users");
+			var rating3 = document.createTextNode(three+" Users");
+			var rating2 = document.createTextNode(two+" Users");
+			var rating1 = document.createTextNode(one+" Users");
 			div1.appendChild(headlineText);
 			div2.appendChild(leadparaText);
+			div3.appendChild(rating5);
+			div4.appendChild(rating4);
+			div5.appendChild(rating3);
+			div6.appendChild(rating2);
+			div7.appendChild(rating1);
 			$("#stars-5").rating();
 			$("#stars-4").rating();
 			$("#stars-3").rating();
