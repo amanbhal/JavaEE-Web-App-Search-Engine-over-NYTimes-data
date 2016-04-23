@@ -30,14 +30,12 @@
 	visibility: hidden;
 	z-index: 200;
 	position: fixed;
-	top: 20%;
+	top: 15%;
 	left: 5%;
 	right: 5%;
 	color: black;
 	background-color: #D3D3D3;
 	border-radius: 25px;
-    -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
-  	box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
 }
 
 #insideChild {
@@ -46,7 +44,7 @@
 }
 
 #leadparaDiv {
-	height: 250px;
+	height: 150px;
 	overflow-y: auto;
 }
 
@@ -206,51 +204,31 @@
   margin-top: 5px;
 }
 
-.rating:not(:checked) > input {
-    position:absolute;
-    top:-9999px;
-    clip:rect(0,0,0,0);
+.rating {
+    overflow: hidden;
+    display: inline-block;
+    font-size: 0;
+    position: relative;
 }
-
-.rating:not(:checked) > label {
-    float:right;
-    width:1em;
-    padding:0 .1em;
-    overflow:hidden;
-    white-space:nowrap;
-    cursor:pointer;
-    font-size:200%;
-    line-height:1.2;
-    color:#ddd;
-    text-shadow:1px 1px #bbb, 2px 2px #666, .1em .1em .2em rgba(0,0,0,.5);
+.rating-input {
+    float: right;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    margin: 0 0 0 -16px;
+    opacity: 0;
 }
-
-.rating:not(:checked) > label:before {
-    content: '★ ';
+.rating:hover .rating-star:hover,
+.rating:hover .rating-star:hover ~ .rating-star,
+.rating-input:checked ~ .rating-star {
+    background-position: 0 0;
 }
-
-.rating > input:checked ~ label {
-    color: #f70;
-    text-shadow:1px 1px #c60, 2px 2px #940, .1em .1em .2em rgba(0,0,0,.5);
-}
-
-.rating:not(:checked) > label:hover,
-.rating:not(:checked) > label:hover ~ label {
-    color: gold;
-    text-shadow:1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0,0,0,.5);
-}
-
-.rating > input:checked + label:hover,
-.rating > input:checked + label:hover ~ label,
-.rating > input:checked ~ label:hover,
-.rating > input:checked ~ label:hover ~ label,
-.rating > label:hover ~ input:checked ~ label {
-    color: #ea0;
-    text-shadow:1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0,0,0,.5);
-}
-
-.rating > label:active {
-    position:relative;
-    top:2px;
-    left:2px;
+.rating-star,
+.rating:hover .rating-star {
+    position: relative;
+    float: right;
+    display: block;
+    width: 16px;
+    height: 16px;
+    background: url('http://kubyshkin.ru/samples/star-rating/star.png') 0 -16px;
 }
