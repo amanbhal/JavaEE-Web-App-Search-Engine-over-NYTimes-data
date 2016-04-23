@@ -128,7 +128,37 @@ public class ProcessSearchResult {
 		}
 		return result;
 	}
+	public static void updateDocumentRating(String doc_id, int rating){
+		switch (rating) {
+		case 1:
+			
+			break;
 
+		default:
+			break;
+		}
+	}
+	
+	public static void updateDocumentHits(String doc_id){
+		try {
+			database.updateDocumentRatings(conn, doc_id, "hits");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static HashMap<String,Integer> getDocumentRating(String doc_id){
+		HashMap<String,Integer> result = new HashMap<String,Integer>();
+		try {
+			result = database.getDocumentRatings(conn, doc_id);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 	public static double getRatingForDoc(HashMap<String, Integer> ratingsForDocument, double meanRatingOfSystem, double totalHits) {
 		double totalRatingCurrentDocument = 0.0;
 		try {
