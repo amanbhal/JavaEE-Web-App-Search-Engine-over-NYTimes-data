@@ -150,6 +150,7 @@ public class ProcessSearchResult {
 		}
 		
 		try {
+			database.updateGlobalRatings(conn, rating);
 			database.updateDocumentRatings(conn, doc_id, rating_name);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -160,6 +161,7 @@ public class ProcessSearchResult {
 	public static void updateDocumentHits(String doc_id){
 		try {
 			database.updateDocumentRatings(conn, doc_id, "hits");
+			database.updateTotalHits(conn);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
