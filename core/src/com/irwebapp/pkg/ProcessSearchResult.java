@@ -80,6 +80,9 @@ public class ProcessSearchResult {
 					.getJSONArray("docs");
 			Map<String, List<Document>> year_docMap = new TreeMap<String, List<Document>>(
 					Collections.reverseOrder());
+			//Database changes
+			double meanRatingOfSystem = database.getAverageRating(conn);
+			double totalHits = database.getTotalHits(conn);
 			for (int i = 0; i < arrayOfDocsAsJSON.length(); i++) {
 
 				JSONObject JSONObjectForDoc = arrayOfDocsAsJSON
@@ -87,9 +90,8 @@ public class ProcessSearchResult {
 
 				String year = JSONObjectForDoc.getJSONArray("date")
 						.getString(0).substring(0, 4);
-
-				double ratingForDoc = getRatingForDoc((String) JSONObjectForDoc
-						.get("id"));
+				String doc_id = (String) JSONObjectForDoc.get("id");
+				double ratingForDoc = getRatingForDoc(doc_id, meanRatingOfSystem, totalHits);
 
 				Document newDoc = new Document(JSONObjectForDoc, ratingForDoc);
 
@@ -118,7 +120,7 @@ public class ProcessSearchResult {
 		return result;
 	}
 
-	public static double getRatingForDoc(String doc_id) {
+	public static double getRatingForDoc(String doc_id, double meanRatingOfSystem, double totalHits) {
 		double totalRatingCurrentDocument = 0.0;
 		try {
 			
@@ -126,12 +128,11 @@ public class ProcessSearchResult {
 			double noOfVotes = (double)getNumberOfVotes(ratingsForDocument);
 			double minimumVotesRequired = 10.0;
 			double meanRating = getMeanRating(ratingsForDocument, noOfVotes);
-			double meanRatingOfSystem = database.getAverageRating(conn);
+			
 			
 			double weightedRating  = (noOfVotes/ (noOfVotes + minimumVotesRequired)) * meanRating;		//Formula from IMDb
 			weightedRating += (meanRating/ (noOfVotes + minimumVotesRequired)) * meanRatingOfSystem;
 			int hitsForCurrentDocument = ratingsForDocument.get("hits");
-			double totalHits = database.getTotalHits(conn);
 			double weightForBaysianAverage =  (double)hitsForCurrentDocument/totalHits;					//Using Bayesian average
 			double ratingsBasedOnHits = weightForBaysianAverage * meanRating + (1 - weightForBaysianAverage) * meanRatingOfSystem;
 			
