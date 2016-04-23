@@ -157,29 +157,30 @@
 			</div>
 			<i class="fa fa-star fa-pull-left fa-border" aria-hidden="true"></i>
 			<p>User Ratings:</p>
+			<% HashMap<String,Integer> userRatings = ProcessSearchResult %>
 			<table>
 				<tr>
-					<td>5 Stars</td>
+					<td></td>
 					<td><div id="stars-5" data-rating="5"><input type="hidden" name="rating"/></div></td>
 					<td>(5 Users)</td>
 				</tr>
 				<tr>
-					<td>4 Stars</td>
+					<td></td>
 					<td><div id="stars-4" data-rating="4"><input type="hidden" name="rating"/></div></td>
 					<td>(5 Users)</td>
 				</tr>
 				<tr>
-					<td>3 Stars</td>
+					<td></td>
 					<td><div id="stars-3" data-rating="3"><input type="hidden" name="rating"/></div></td>
 					<td>(5 Users)</td>
 				</tr>
 				<tr>
-					<td>2 Stars</td>
+					<td></td>
 					<td><div id="stars-2" data-rating="2"><input type="hidden" name="rating"/></div></td>
 					<td>(5 Users)</td>
 				</tr>
 				<tr>
-					<td>1 Stars</td>
+					<td></td>
 					<td><div id="stars-1" data-rating="1"><input type="hidden" name="rating"/></div></td>
 					<td>(5 Users)</td>
 				</tr>
@@ -187,6 +188,7 @@
 				
 			
 			<p>Provide Rating:</p>
+			<!--
 			<form action="#">
 				<span class="rating">
 				        <input type="radio" class="rating-input" id="rating-input-1-5" name="rating-input-1"/>
@@ -203,23 +205,22 @@
 				                id="rating-input-1-1" name="rating-input-1"/>
 				        <label for="rating-input-1-1" class="rating-star"></label>
 				</span>
-				<a></a>
+				<a onclick="submitRating(document.getElementById())"></a>
 			</form>
-			<!--
+			-->
 			<div class="container">
 		    <div class="row lead">
 		        <div id="stars" class="starrr"></div>
-		        You gave a rating of <span id="count">0</span> star(s)
 			</div>
-		    
+		    <!--
 		    <div class="row lead">
 		        <p>Also you can give a default rating by adding attribute data-rating</p>
 		        <div id="stars-existing" class="starrr" data-rating='4'></div>
 		        You gave a rating of <span id="count-existing">4</span> star(s)
 		    </div>
 		    -->
-</div>
-			<button align="center" class="btn btn-lg btn-danger" onclick="hide()">Close</button>
+			<button style="position:relative; left:45%;" class="btn btn-danger" onclick="hide()">Close</button>
+			<br>
 		</div>
 	</div>
 	<script type="text/javascript">
