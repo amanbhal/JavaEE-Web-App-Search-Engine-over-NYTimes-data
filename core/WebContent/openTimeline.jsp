@@ -136,10 +136,18 @@
 				//headline = headline.replaceAll("??","");
 				lead_para = lead_para.replaceAll("'","");
 				//lead_para = lead_para.replaceAll("??","");
+				String author = "";
+				if(!	yearData.get(j).getDocAsJSON().getJSONArray("author").isNull(0)){
+					author = yearData.get(j).getDocAsJSON().getJSONArray("author").getString(0);
+				}
+				String date = yearData.get(j).getDocAsJSON().getJSONArray("date").getString(0);
+				date = date.substring(0, 10);
 		%>
 		<div class="article parentNode">
 			<i class="fa fa-newspaper-o fa-lg fa-pull-left fa-border" aria-hidden="true"></i>
-			<h4 style="margin-bottom:20px;"><a href="javascript:show('<%= headline %>','<%= lead_para %>','<%= star5%>','<%= star4%>','<%= star3%>','<%= star2%>','<%= star1%>','<%=docID%>')"><%=headline%></a></h4>
+			
+			<h4 style="margin-bottom:20px;"><a href="javascript:show('<%= headline %>','<%= lead_para %>','<%= star5%>','<%= star4%>','<%= star3%>','<%= star2%>','<%= star1%>','<%=docID%>','<%= date %>','<%= author %>')"><%=headline%></a></h4>
+			
 			<!--<h4 style="margin-bottom:20px;"><a onclick="show('<%= headline %>','<%= lead_para %>')"; href="#myModal" data-toggle="modal"><%=headline%></a></h4>-->
 			<!--<i class="fa fa-paragraph fa-pull-left fa-border" aria-hidden="true"></i>
 			<p style="margin-bottom:20px;"><%=lead_para %></p>-->
@@ -167,7 +175,14 @@
 				<i class="fa fa-paragraph fa-pull-left fa-border" aria-hidden="true"></i>
 				<p id="leadpara" style="margin-bottom:20px;"></p>
 			</div>
-			<
+			<div id="showAuthor" style="visibility:hidden;">
+				<i class="fa fa-user fa-pull-left fa-border" aria-hidden="true"></i>
+				<p id="author">Written By: </p> 
+			</div>
+			<div>
+				<i class="fa fa-calendar fa-pull-left fa-border" aria-hidden="true"></i>
+				<p id="date">Dated: </p>
+			</div>
 			<i class="fa fa-star fa-pull-left fa-border" aria-hidden="true"></i>
 			<p>User Ratings:</p>
 			<table>
@@ -205,7 +220,7 @@
 		        <div id="stars" class="starrr"></div>
 		        <div id="docID" style="visibility:hidden;"></div>
 			</div>
-			<button style="position:relative; left:45%;" class="btn btn-danger" onclick="hide()">Close</button>
+			<button style="position:absolute; left:45%;" class="btn btn-danger" onclick="hide()">Close</button>
 			<br>
 		</div>
 	</div>

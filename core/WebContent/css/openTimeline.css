@@ -30,9 +30,9 @@
 	visibility: hidden;
 	z-index: 200;
 	position: fixed;
-	top: 15%;
-	left: 5%;
-	right: 5%;
+	top: 10%;
+	left: 17%;
+	width: 65%;
 	color: black;
 	background-color: #D3D3D3;
 	border-radius: 25px;
@@ -44,7 +44,7 @@
 }
 
 #leadparaDiv {
-	height: 150px;
+	height: 100px;
 	overflow-y: auto;
 }
 

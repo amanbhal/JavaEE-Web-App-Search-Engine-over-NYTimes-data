@@ -1,8 +1,15 @@
-function show(headline,leadpara,five,four,three,two,one,docID){
+function show(headline,leadpara,five,four,three,two,one,docID,date,author){
 			var xhttp = new XMLHttpRequest();
 		    xhttp.open("GET", "updateClick?docID="+docID, true);
 		    xhttp.send();
 			document.getElementById("childNode").style.visibility = "visible";
+			if(author){
+				document.getElementById("showAuthor").style.visibility = "visible";
+				var div = document.getElementById("author");
+				div.innerHTML = "";
+				var auth = document.createTextNode(author);
+				div.appendChild(auth);
+			}
 			//var div1 = document.getElementById("modal-title");
 			//var div2 = document.getElementById("modal-body");
 			var div1 = document.getElementById("headline");
@@ -13,6 +20,7 @@ function show(headline,leadpara,five,four,three,two,one,docID){
 			var div6 = document.getElementById("2_star_user");
 			var div7 = document.getElementById("1_star_user");
 			var div8 = document.getElementById("docID");
+			var div9 = document.getElementById("date");
 			div1.innerHTML = "";
 			div2.innerHTML = "";
 			div3.innerHTML = "";
@@ -21,6 +29,7 @@ function show(headline,leadpara,five,four,three,two,one,docID){
 			div6.innerHTML = "";
 			div7.innerHTML = "";
 			div8.innerHTML = "";
+			div9.innerHTML = "";
 			var headlineText = document.createTextNode(headline);
 			var leadparaText = document.createTextNode(leadpara);
 			var rating5 = document.createTextNode(" "+five+" Users");
@@ -29,6 +38,7 @@ function show(headline,leadpara,five,four,three,two,one,docID){
 			var rating2 = document.createTextNode(two+" Users");
 			var rating1 = document.createTextNode(one+" Users");
 			var di = document.createTextNode(docID);
+			var d = document.createTextNode(date);
 			div1.appendChild(headlineText);
 			div2.appendChild(leadparaText);
 			div3.appendChild(rating5);
@@ -37,6 +47,7 @@ function show(headline,leadpara,five,four,three,two,one,docID){
 			div6.appendChild(rating2);
 			div7.appendChild(rating1);
 			div8.appendChild(di);
+			div9.appendChild(d);
 			$("#stars-5").rating();
 			$("#stars-4").rating();
 			$("#stars-3").rating();
@@ -45,6 +56,9 @@ function show(headline,leadpara,five,four,three,two,one,docID){
 		}
 		function hide() {
 			document.getElementById("childNode").style.visibility = "hidden";
+			if(document.getElementById("showAuthor").style.visibility == "visible"){
+				document.getElementById("showAuthor").style.visibility = "hidden";
+			}
 		}
 
 var __slice = [].slice;
