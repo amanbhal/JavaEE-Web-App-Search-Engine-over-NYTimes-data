@@ -22,10 +22,10 @@
 	<nav class="navbar navbar-default" style="background-color:#7E619F;">
 	<div class="container-fluid">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="#" style="color: white;">SearchEngine</a>
+			<a class="navbar-brand" href="http://localhost:8080/IRwebApp/" style="color: white;">SearchEngine</a>
 		</div>
 		<ul class="nav navbar-nav">
-			<li class="active"><a href="#" style="color: black;">Home</a></li>
+			<li class="active"><a href="http://localhost:8080/IRwebApp/" style="color: black;">Home</a></li>
 		</ul>
 	</div>
 	</nav>
