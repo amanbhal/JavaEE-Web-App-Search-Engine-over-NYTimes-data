@@ -64,6 +64,9 @@
 				int i=0;
 		  		for (String year : year_docidMap.keySet()) {
 		  			String url = "OpenFileServlet?year="+year+"&search="+search;
+		  			List<Document> yearData = year_docidMap.get(year);
+		  			String headline = yearData.get(0).getDocAsJSON().getJSONArray("headline").getString(0);
+		  			String lead_para = yearData.get(0).getDocAsJSON().getJSONArray("lead_paragraph").getString(0);
 			%>
 			<%
 				if(i%2==0) {
@@ -79,9 +82,9 @@
 					</div>
 					<div class="timeline-body">
 						<p>
-							Top Article:
+							Top Rated Article:
 							<%
-							String topArticle =year_docidMap.get(year).get(0).getDocAsJSON().getJSONArray("lead_paragraph").getString(0);
+							String topArticle = lead_para;
 						%>
 						
 						<p><%=topArticle%>

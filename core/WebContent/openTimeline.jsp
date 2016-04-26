@@ -137,7 +137,7 @@
 				lead_para = lead_para.replaceAll("'","");
 				//lead_para = lead_para.replaceAll("??","");
 				String author = "";
-				if(!	yearData.get(j).getDocAsJSON().getJSONArray("author").isNull(0)){
+				if(!(yearData.get(j).getDocAsJSON().getJSONArray("author").length()==0)){
 					author = yearData.get(j).getDocAsJSON().getJSONArray("author").getString(0);
 				}
 				String date = yearData.get(j).getDocAsJSON().getJSONArray("date").getString(0);
@@ -185,7 +185,7 @@
 			</div>
 			<i class="fa fa-star fa-pull-left fa-border" aria-hidden="true"></i>
 			<p>User Ratings:</p>
-			<table>
+			<table style="margin-left:75px;">
 				<tr>
 					<td></td>
 					<td><div id="stars-5" data-rating="5"><input type="hidden" name="rating"/></div></td>
@@ -213,9 +213,9 @@
 				</tr>
 			</table>
 				
-			
+			<br>
 			<p>Provide Rating:</p>
-			<div class="container">
+			<div class="container" style="margin-left:75px;">
 		    <div class="row lead">
 		        <div id="stars" class="starrr"></div>
 		        <div id="docID" style="visibility:hidden;"></div>
